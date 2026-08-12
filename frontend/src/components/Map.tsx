@@ -14,6 +14,7 @@ export default function Map({ onLocationSelect }: { onLocationSelect?: (location
         container: mapContainer.current,
         style: {
           version: 8,
+          glyphs: "https://demotiles.maplibre.org/font/{fontstack}/{range}.pbf",
           sources: {
             'raster-tiles': {
               type: 'raster',
