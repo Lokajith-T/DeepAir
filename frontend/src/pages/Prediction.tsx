@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Settings, Play, Database, Layers, CheckCircle2, ChevronRight, Download, MapPin } from "lucide-react"
+import { Settings, Play, Database, Layers, CheckCircle2, Download, MapPin } from "lucide-react"
 
 export default function Prediction() {
   const [isPredicting, setIsPredicting] = useState(false)
@@ -14,7 +14,6 @@ export default function Prediction() {
     { label: "Generating high-resolution map", at: 100 }
   ]
 
-  const currentStep = steps.find(s => progress <= s.at)?.label || "Complete"
 
   const runPrediction = () => {
     setIsPredicting(true)

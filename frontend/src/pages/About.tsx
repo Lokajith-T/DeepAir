@@ -1,4 +1,4 @@
-import { Brain, Globe, Leaf, Zap, Shield, Factory, CheckCircle } from "lucide-react"
+import { Brain, Globe, Leaf, Shield, Factory } from "lucide-react"
 
 export default function About() {
   return (

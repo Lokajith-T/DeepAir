@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, Legend } from 'recharts'
-import { CheckSquare, Activity, Crosshair, MapPin } from "lucide-react"
+import { Activity, Crosshair, MapPin } from "lucide-react"
 
 export default function Validation() {
   const [metrics, setMetrics] = useState<any>(null)

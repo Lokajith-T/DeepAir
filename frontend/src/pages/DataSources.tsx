@@ -1,4 +1,4 @@
-import { Satellite, Wind, Map, Mountain, MapPin, CheckCircle2 } from "lucide-react"
+import { Satellite, Wind, Map, Mountain, MapPin } from "lucide-react"
 
 export default function DataSources() {
   const sources = [
