@@ -10,9 +10,9 @@ export default function Header({ setIsSidebarOpen }: { setIsSidebarOpen: (val: a
         >
           <Menu className="w-5 h-5" />
         </button>
-        <h2 className="text-lg md:text-xl font-bold text-card-foreground m-0 truncate hidden sm:block">DeepAir Environmental Intelligence</h2>
-        <h2 className="text-lg font-bold text-card-foreground m-0 sm:hidden">DeepAir</h2>
-        <span className="hidden md:inline-block bg-primary/10 text-primary text-xs font-semibold px-2 py-0.5 rounded ml-4 border border-primary/20">DEMO MODE</span>
+        <div className="flex items-center">
+          <h2 className="text-xl font-bold text-slate-800 dark:text-white">DeepAir Environmental Intelligence</h2>
+        </div>
       </div>
       
       <div className="flex items-center space-x-4 md:space-x-6 text-sm">
