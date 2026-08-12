@@ -61,11 +61,13 @@ export default function Map({ onLocationSelect }: { onLocationSelect?: (location
       // Add HTML markers for guaranteed rendering
       hotspots.forEach(feature => {
         const el = document.createElement('div');
-        el.className = 'w-6 h-6 rounded-full border-2 border-white cursor-pointer shadow-lg transition-transform hover:scale-125';
+        el.className = 'w-6 h-6 rounded-full border-2 border-white cursor-pointer shadow-lg transition-transform hover:scale-125 pointer-events-auto';
         el.style.backgroundColor = getColor(feature.properties.no2);
         el.style.opacity = '0.85';
 
-        el.addEventListener('click', () => {
+        el.addEventListener('click', (e) => {
+          e.stopPropagation();
+          e.preventDefault();
           if (onLocationSelect) {
             onLocationSelect(feature.properties);
           }
