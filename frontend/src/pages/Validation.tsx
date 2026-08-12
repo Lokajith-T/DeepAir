@@ -6,7 +6,7 @@ export default function Validation() {
   const [metrics, setMetrics] = useState<any>(null)
 
   useEffect(() => {
-    fetch("http://localhost:8000/api/validation")
+    fetch("/api/validation")
       .then(res => res.json())
       .then(data => setMetrics(data))
       .catch(err => console.error(err))

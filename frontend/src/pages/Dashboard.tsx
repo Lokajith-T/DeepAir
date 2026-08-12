@@ -7,7 +7,7 @@ export default function Dashboard() {
   const [selectedLoc, setSelectedLoc] = useState<any>(null)
 
   useEffect(() => {
-    fetch("http://localhost:8000/api/dashboard")
+    fetch("/api/dashboard")
       .then(res => res.json())
       .then(data => setStats(data))
       .catch(err => console.error(err))
