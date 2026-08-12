@@ -65,20 +65,17 @@ export default function Map({ onLocationSelect }: { onLocationSelect?: (location
           type: 'circle',
           source: 'hotspots',
           paint: {
-            'circle-radius': [
-              'interpolate', ['linear'], ['zoom'],
-              5, 15,
-              10, 45
-            ],
+            'circle-radius': 15,
             'circle-color': [
-              'interpolate', ['linear'], ['get', 'no2'],
-              30, '#22c55e',
+              'step',
+              ['get', 'no2'],
+              '#22c55e',
               40, '#eab308',
               50, '#f97316',
               60, '#ef4444',
               70, '#9333ea'
             ],
-            'circle-opacity': 0.6,
+            'circle-opacity': 0.8,
             'circle-stroke-width': 2,
             'circle-stroke-color': '#ffffff'
           }
