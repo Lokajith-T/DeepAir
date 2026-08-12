@@ -6,8 +6,7 @@ export default function Validation() {
   const [metrics, setMetrics] = useState<any>(null)
 
   useEffect(() => {
-    const apiUrl = import.meta.env.VITE_API_URL || ""
-    fetch(`${apiUrl}/api/validation`)
+    fetch(`/api/validation`)
       .then(res => res.json())
       .then(data => setMetrics(data))
       .catch(err => console.error(err))

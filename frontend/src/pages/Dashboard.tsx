@@ -7,8 +7,7 @@ export default function Dashboard() {
   const [selectedLoc, setSelectedLoc] = useState<any>(null)
 
   useEffect(() => {
-    const apiUrl = import.meta.env.VITE_API_URL || ""
-    fetch(`${apiUrl}/api/dashboard`)
+    fetch(`/api/dashboard`)
       .then(res => res.json())
       .then(data => setStats(data))
       .catch(err => console.error(err))

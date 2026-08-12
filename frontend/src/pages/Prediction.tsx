@@ -34,8 +34,7 @@ export default function Prediction() {
     }, 100)
 
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || ""
-      const res = await fetch(`${apiUrl}/api/predict`, {
+      const res = await fetch(`/api/predict`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ region, date, resolution, model })
