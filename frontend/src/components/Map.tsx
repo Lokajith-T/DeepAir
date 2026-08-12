@@ -84,24 +84,7 @@ export default function Map({ onLocationSelect }: { onLocationSelect?: (location
           }
         });
         
-        // Add labels
-        map.current.addLayer({
-          id: 'hotspots-label',
-          type: 'symbol',
-          source: 'hotspots',
-          layout: {
-            'text-field': ['get', 'name'],
-            'text-font': ['Open Sans Bold', 'Arial Unicode MS Bold'],
-            'text-size': 12,
-            'text-offset': [0, 1.5],
-            'text-anchor': 'top'
-          },
-          paint: {
-            'text-color': '#1f2937',
-            'text-halo-color': '#ffffff',
-            'text-halo-width': 1
-          }
-        });
+        // Labels removed to ensure circle rendering stability on Vercel
 
         map.current.on('click', 'hotspots-layer', (e) => {
           if (e.features && e.features.length > 0 && onLocationSelect) {
