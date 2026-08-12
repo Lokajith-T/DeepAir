@@ -6,7 +6,7 @@ __pycache__/
 venv/
 env/
 .env
-*.pkl
+# *.pkl
 *.sqlite3
 
 # Node / Frontend

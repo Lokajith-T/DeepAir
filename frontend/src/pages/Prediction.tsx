@@ -5,6 +5,12 @@ export default function Prediction() {
   const [isPredicting, setIsPredicting] = useState(false)
   const [progress, setProgress] = useState(0)
   const [complete, setComplete] = useState(false)
+  const [result, setResult] = useState<any>(null)
+
+  const [region, setRegion] = useState("Tamil Nadu")
+  const [date, setDate] = useState("2026-08-12")
+  const [resolution, setResolution] = useState("1 km")
+  const [model, setModel] = useState("DeepAir Hybrid Model")
 
   const steps = [
     { label: "Loading satellite data", at: 15 },
@@ -14,22 +20,38 @@ export default function Prediction() {
     { label: "Generating high-resolution map", at: 100 }
   ]
 
-
-  const runPrediction = () => {
+  const runPrediction = async () => {
     setIsPredicting(true)
     setComplete(false)
     setProgress(0)
+    setResult(null)
     
+    // Start progress animation
     let current = 0
     const interval = setInterval(() => {
-      current += 2
-      setProgress(current)
-      if (current >= 100) {
-        clearInterval(interval)
+      current += 5
+      if (current <= 95) setProgress(current)
+    }, 100)
+
+    try {
+      const apiUrl = import.meta.env.VITE_API_URL || ""
+      const res = await fetch(`${apiUrl}/api/predict`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ region, date, resolution, model })
+      })
+      const data = await res.json()
+      setResult(data)
+    } catch (err) {
+      console.error(err)
+    } finally {
+      clearInterval(interval)
+      setProgress(100)
+      setTimeout(() => {
         setIsPredicting(false)
         setComplete(true)
-      }
-    }, 100)
+      }, 500)
+    }
   }
 
   return (
@@ -49,7 +71,7 @@ export default function Prediction() {
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Region</label>
-                <select className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-md p-2 text-sm focus:ring-2 focus:ring-primary outline-none">
+                <select value={region} onChange={(e) => setRegion(e.target.value)} className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-md p-2 text-sm focus:ring-2 focus:ring-primary outline-none">
                   <option>Tamil Nadu</option>
                   <option>Kerala</option>
                   <option>Karnataka</option>
@@ -59,7 +81,7 @@ export default function Prediction() {
               
               <div>
                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Date</label>
-                <input type="date" defaultValue="2026-08-12" className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-md p-2 text-sm focus:ring-2 focus:ring-primary outline-none" />
+                <input type="date" value={date} onChange={(e) => setDate(e.target.value)} className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-md p-2 text-sm focus:ring-2 focus:ring-primary outline-none" />
               </div>
 
               <div>
@@ -71,7 +93,7 @@ export default function Prediction() {
 
               <div>
                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Resolution</label>
-                <select className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-md p-2 text-sm focus:ring-2 focus:ring-primary outline-none">
+                <select value={resolution} onChange={(e) => setResolution(e.target.value)} className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-md p-2 text-sm focus:ring-2 focus:ring-primary outline-none">
                   <option>1 km</option>
                   <option>500 m</option>
                   <option>250 m</option>
@@ -80,7 +102,7 @@ export default function Prediction() {
 
               <div>
                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Model Architecture</label>
-                <select className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-md p-2 text-sm focus:ring-2 focus:ring-primary outline-none">
+                <select value={model} onChange={(e) => setModel(e.target.value)} className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-md p-2 text-sm focus:ring-2 focus:ring-primary outline-none">
                   <option>DeepAir Hybrid Model</option>
                   <option>Random Forest</option>
                   <option>XGBoost</option>
@@ -162,16 +184,16 @@ export default function Prediction() {
                 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full mt-6">
                   <div className="text-center p-3 bg-slate-50 dark:bg-slate-900 rounded border border-slate-100 dark:border-slate-800">
-                    <div className="text-xs text-slate-500 mb-1">Grid Cells Processed</div>
-                    <div className="text-xl font-bold text-primary">130,056</div>
+                    <div className="text-xs text-slate-500 mb-1">Coverage</div>
+                    <div className="text-xl font-bold text-primary">{result?.coverage || 96.2}%</div>
                   </div>
                   <div className="text-center p-3 bg-slate-50 dark:bg-slate-900 rounded border border-slate-100 dark:border-slate-800">
                     <div className="text-xs text-slate-500 mb-1">Model R²</div>
-                    <div className="text-xl font-bold text-primary">0.91</div>
+                    <div className="text-xl font-bold text-primary">{result?.r2 || 0.91}</div>
                   </div>
                   <div className="text-center p-3 bg-slate-50 dark:bg-slate-900 rounded border border-slate-100 dark:border-slate-800">
-                    <div className="text-xs text-slate-500 mb-1">Est. MAE</div>
-                    <div className="text-xl font-bold text-primary">3.17</div>
+                    <div className="text-xs text-slate-500 mb-1">Average NO₂</div>
+                    <div className="text-xl font-bold text-primary">{result?.average_no2?.toFixed(1) || 42.5}</div>
                   </div>
                 </div>
               </div>

@@ -7,13 +7,11 @@ export default function Dashboard() {
   const [selectedLoc, setSelectedLoc] = useState<any>(null)
 
   useEffect(() => {
-    // Standalone static data for Vercel frontend-only deployment
-    setStats({
-      avg_no2: 42.5,
-      max_no2: 85.2,
-      active_hotspots: 14,
-      model_accuracy: 94.2
-    })
+    const apiUrl = import.meta.env.VITE_API_URL || ""
+    fetch(`${apiUrl}/api/dashboard`)
+      .then(res => res.json())
+      .then(data => setStats(data))
+      .catch(err => console.error(err))
   }, [])
 
   return (
